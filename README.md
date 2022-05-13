@@ -23,4 +23,4 @@ https://mynavi-agent.jp/it/geekroid/2017/10/fuelphp2.html
 
 
 ## ローカルのURL
-http://localhost/withyou/
+http://localhost/withyou/welcome/home/
