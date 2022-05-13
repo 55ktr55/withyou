@@ -1,0 +1,105 @@
+@tailwind base;
+
+@tailwind components;
+.border-color-grn {
+  border-color: #17AEAE;
+}
+
+.bg-grn {
+  background-color: #17AEAE;
+}
+
+.bg-light-grn {
+  background-color: #93d605;
+}
+
+.bg-gray-grn {
+  background-color: #c4d9e0;
+}
+
+.bg-user1 {
+  background-color: #FFF598;
+}
+
+.bg-user2 {
+  background-color: #FCB3DF;
+}
+
+
+.selectable-grn:hover {
+  background-color: #299c9c;
+}
+
+.selectable-red:hover {
+  background-color: #ae1717;
+}
+
+.bg-highlight-red {
+  background-color: #D63737;
+}
+
+.icon-grn:hover {
+  background-color: #33C8C8;
+}
+
+.icon-red:hover {
+  background-color: #f16c6c;
+}
+
+.shadow-btn:hover{
+	cursor: pointer;
+	outline: none;
+	box-shadow: 2px 2px 2px gray;
+	border: 1px solid #ccc;
+}
+.shadow-btn:active{
+	transform: translate3d(0,4px,0);
+	box-shadow: none;
+}
+
+/*クリック時のイベントを指定*/
+.btn:active {
+  /*影をけす*/
+  box-shadow: none;
+  /*ボタンを下に移動させる＝ボタンがクリックされたように見える*/
+  position: relative;
+  top: 3px;
+}
+
+.hidden-transition1 {
+  transition:
+    opacity 800ms,
+    margin-top 1300ms,
+    padding-top 1300ms,
+    padding-bottom 1300ms,
+    line-height 1300ms;
+}
+
+.hidden-transition1.hidden-task {
+  opacity: 0;
+  margin-top: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 0;
+  pointer-events: none;
+}
+
+.hidden-transition2{
+  transition:
+    opacity 300ms,
+    height 300ms;
+}
+
+.hidden-transition2.hidden-task {
+  padding: 0;
+  height: 0;
+  opacity: 0;
+}
+
+.h-header{
+  height: 67px;
+}
+
+.h-main{
+  height: 700px;
+}
