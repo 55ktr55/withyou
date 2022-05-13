@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <?php echo Asset::css('styles.css'); ?>
     <?php echo Asset::js('index.js'); ?>
+    <?php echo Asset::js('knockout-3.5.1.js'); ?>
+    <?php echo Asset::js('jquery-3.6.0.min.js'); ?>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <title>Document</title>
 </head>
 <body class="cursor-default">
@@ -124,7 +125,14 @@
                         <?php echo Asset::img('plus.svg', array('width'=>'15','height'=>'15','alt'=>'カテゴリ作成アイコン')); ?>
                     </div>
                 </div>
-                <div id="categories" class="text-base font-normal px-2"></div>
+                <div data-bind="foreach: items" id="categories" class="text-base font-normal px-2" >
+                    <div class="flex justify-between group items-center rounded selectable-grn category_el">
+                        <div data-bind="text:  '＃ ' + $data"></div>
+                        <div id="three_dots_el" class="opacity-0 group-hover:opacity-100 p-1 rounded icon-grn" onclick="showPopup('category')">
+                            <img width="13" height="13" alt="カテゴリ設定アイコン" src="http://localhost/withyou/assets/img/three_dots.svg?1650859829">
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="flex items-center selectable-grn w-full mt-5 my-10 py-2 rounded pl-2" onclick="showPopup('setting')">
@@ -137,7 +145,7 @@
         </div>
 
         <!-- ------------------------------Main----------------------------------- -->
-        <div id="home_without_task" class="text-xl mx-auto my-auto flex-col">
+        <div id="home_without_task" class="text-xl mx-auto my-auto flex-col text-black">
             <div class="bg-red-500 bg-opacity-60 my-10 px-6 py-8 rounded-3xl">
                 <div class="flex items-center">
                     <?php echo Asset::img('people.svg', array('width'=>'60','height'=>'60','alt'=>'人アイコン')); ?>
@@ -166,7 +174,7 @@
                 </div>
             </div>
         </div>
-        <div id="home_with_task" class="flex-grow bg-gray-100 w-4/5 h-full">
+        <div id="home_with_task" class="flex-grow bg-gray-100 w-4/5 h-full text-black">
             <div class="flex justify-between mt-4 px-3 border-b border-gray-400 h-header">
                 <div id="current_category_name" class="font-bold text-3xl ml-2 mt-2"></div>
                 <form onsubmit="return add_task()">

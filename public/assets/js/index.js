@@ -193,33 +193,17 @@ function showTasks(tasks) { //tasksはid,content,created_byの連想配列
 }
 
 function showCategories(categories) {
-    var categories_el = document.getElementById("categories");
-    categories.forEach(category => {
-        var category_el = document.createElement('div');
-        var category_name_el = document.createElement('div');
-        var three_dots_el = document.createElement('div');
-        var three_dots_img = document.createElement('img');
-        category_el.classList.add("flex", "justify-between", "group", "items-center", "selectable-grn", "rounded")
-        category_name_el.textContent = "＃ " + category;
-        three_dots_el.classList.add("opacity-0", "group-hover:opacity-100", "icon-grn", "p-1", "rounded")
-        three_dots_img.setAttribute("width", "13");
-        three_dots_img.setAttribute("height", "13");
-        three_dots_img.setAttribute("alt", "カテゴリ設定アイコン");
-        three_dots_img.setAttribute("src", "http://localhost/withyou/assets/img/three_dots.svg?1650859829");
-
-        three_dots_el.appendChild(three_dots_img);
-        category_el.appendChild(category_name_el);
-        category_el.appendChild(three_dots_el);
-        categories_el.appendChild(category_el);
-
-        category_el.addEventListener('click', function() {
+    ko.applyBindings({
+        items: categories
+    });
+    const category_els = document.getElementsByClassName("category_el");
+    console.log(category_els)
+    for( let i = 0 ; i < category_els.length ; i ++ ) {
+        category_els[i].addEventListener('click', function() {
             var category_name = event.currentTarget.firstElementChild.textContent;
             showMainScreen(category_name.replace("＃ ", ""));
         });
-        three_dots_el.addEventListener('click', function() {
-            showPopup("category");
-        });
-    });
+    }
 }
 
 function showMainScreen(category_name){
@@ -260,3 +244,7 @@ function addTask(){
     });
     return false;  //enter key でも発火させるため
 }
+
+var viewModel = {
+    items: ko.observableArray([]),
+};

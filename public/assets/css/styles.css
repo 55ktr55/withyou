@@ -1,6 +1,8 @@
 @tailwind base;
 
 @tailwind components;
+
+
 .border-color-grn {
   border-color: #17AEAE;
 }
