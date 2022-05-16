@@ -1,0 +1,34 @@
+<?php defined('COREPATH') or exit('No direct script access allowed'); ?>
+
+ERROR - 2022-05-08 00:43:06 --> Warning - Undefined array key 0 in /Users/kotaro/intern_without_salary/withyou/fuel/app/classes/model/testmodel.php on line 16
+ERROR - 2022-05-08 00:43:11 --> Warning - Undefined array key 0 in /Users/kotaro/intern_without_salary/withyou/fuel/app/classes/model/testmodel.php on line 16
+ERROR - 2022-05-08 02:05:22 --> Error - Non-static method DOMDocument::getElementById() cannot be called statically in /Users/kotaro/intern_without_salary/withyou/fuel/app/classes/controller/welcome.php on line 73
+ERROR - 2022-05-08 02:09:47 --> Error - Undefined constant "textContent" in /Users/kotaro/intern_without_salary/withyou/fuel/app/classes/controller/welcome.php on line 74
+ERROR - 2022-05-08 02:10:02 --> Error - Undefined constant "textContent" in /Users/kotaro/intern_without_salary/withyou/fuel/app/classes/controller/welcome.php on line 74
+ERROR - 2022-05-08 02:57:09 --> Warning - Attempt to read property "textContent" on null in /Users/kotaro/intern_without_salary/withyou/fuel/app/classes/controller/welcome.php on line 74
+ERROR - 2022-05-08 02:57:21 --> Warning - Attempt to read property "innerHTML" on null in /Users/kotaro/intern_without_salary/withyou/fuel/app/classes/controller/welcome.php on line 74
+ERROR - 2022-05-08 02:57:28 --> Warning - Attempt to read property "innerHTML" on null in /Users/kotaro/intern_without_salary/withyou/fuel/app/classes/controller/welcome.php on line 74
+ERROR - 2022-05-08 03:02:48 --> Warning - Undefined property: DOMDocument::$target_category in /Users/kotaro/intern_without_salary/withyou/fuel/app/classes/controller/welcome.php on line 74
+ERROR - 2022-05-08 03:03:36 --> Warning - Undefined variable $email in /Users/kotaro/intern_without_salary/withyou/fuel/app/views/welcome/home_without_task.php on line 37
+ERROR - 2022-05-08 03:04:21 --> Warning - Undefined property: DOMDocument::$target_category in /Users/kotaro/intern_without_salary/withyou/fuel/app/classes/controller/welcome.php on line 74
+ERROR - 2022-05-08 03:05:16 --> Error - Object of class DOMDocument could not be converted to string in /Users/kotaro/intern_without_salary/withyou/fuel/app/classes/controller/welcome.php on line 75
+ERROR - 2022-05-08 03:06:04 --> Error - Object of class DOMDocument could not be converted to string in /Users/kotaro/intern_without_salary/withyou/fuel/app/classes/controller/welcome.php on line 75
+ERROR - 2022-05-08 03:10:40 --> Error - Class "document" not found in /Users/kotaro/intern_without_salary/withyou/fuel/app/classes/controller/welcome.php on line 73
+ERROR - 2022-05-08 04:57:48 --> Warning - DOMDocument::validate(): no DTD found! in /Users/kotaro/intern_without_salary/withyou/fuel/app/classes/controller/welcome.php on line 74
+ERROR - 2022-05-08 04:59:18 --> Warning - DOMDocument::load(): I/O warning : failed to load external entity &quot;/Users/kotaro/intern_without_salary/withyou/public/home_without_task.php&quot; in /Users/kotaro/intern_without_salary/withyou/fuel/app/classes/controller/welcome.php on line 74
+ERROR - 2022-05-08 05:01:03 --> Warning - DOMDocument::load(): I/O warning : failed to load external entity &quot;/Users/kotaro/intern_without_salary/withyou/public/views/welcome/home_without_task.php&quot; in /Users/kotaro/intern_without_salary/withyou/fuel/app/classes/controller/welcome.php on line 74
+ERROR - 2022-05-08 05:01:53 --> Warning - DOMDocument::load(): I/O warning : failed to load external entity &quot;/Users/kotaro/intern_without_salary/withyou/public/views/welcome/home_without_task.php&quot; in /Users/kotaro/intern_without_salary/withyou/fuel/app/classes/controller/welcome.php on line 74
+ERROR - 2022-05-08 05:02:49 --> Warning - DOMDocument::load(): Opening and ending tag mismatch: meta line 4 and head in /Users/kotaro/intern_without_salary/withyou/fuel/app/views/welcome/home_without_task.php, line: 9 in /Users/kotaro/intern_without_salary/withyou/fuel/app/classes/controller/welcome.php on line 74
+ERROR - 2022-05-08 05:12:17 --> Warning - DOMDocument::load(): I/O warning : failed to load external entity &quot;/Users/kotaro/intern_without_salary/withyou/public/home_without_task.php&quot; in /Users/kotaro/intern_without_salary/withyou/fuel/app/classes/controller/welcome.php on line 75
+ERROR - 2022-05-08 05:12:24 --> Warning - DOMDocument::load(): I/O warning : failed to load external entity &quot;/Users/kotaro/intern_without_salary/withyou/public/home_without_task.php&quot; in /Users/kotaro/intern_without_salary/withyou/fuel/app/classes/controller/welcome.php on line 75
+ERROR - 2022-05-08 06:25:05 --> Error - Call to undefined method DOMDocument::getElementByTagName() in /Users/kotaro/intern_without_salary/withyou/fuel/app/classes/controller/welcome.php on line 76
+ERROR - 2022-05-08 06:40:50 --> Warning - Undefined array key 0 in /Users/kotaro/intern_without_salary/withyou/fuel/app/classes/model/testmodel.php on line 16
+ERROR - 2022-05-08 09:01:26 --> Error - Undefined constant "length" in /Users/kotaro/intern_without_salary/withyou/fuel/app/classes/controller/welcome.php on line 160
+ERROR - 2022-05-08 09:08:12 --> Error - The requested view could not be found: welcome/home.php in /Users/kotaro/intern_without_salary/withyou/fuel/core/classes/view.php on line 492
+ERROR - 2022-05-08 09:44:50 --> Error - syntax error, unexpected token "if" in /Users/kotaro/intern_without_salary/withyou/fuel/app/classes/controller/welcome.php on line 126
+ERROR - 2022-05-08 09:47:47 --> Error - Invalid method: Auth\Auth::get_username in /Users/kotaro/intern_without_salary/withyou/fuel/packages/auth/classes/auth.php on line 387
+ERROR - 2022-05-08 09:51:55 --> 42S22 - SQLSTATE[42S22]: Column not found: 1054 Unknown column 'updated_at' in 'field list' with query: "UPDATE `users` SET `password` = 'IUB2mCPV0DFaoSgeeRDOntHxYEYvNuyvS01z9JBqNEI=', `updated_at` = 1652003515 WHERE `username` = '55ktr55'" in /Users/kotaro/intern_without_salary/withyou/fuel/core/classes/database/pdo/connection.php on line 245
+ERROR - 2022-05-08 12:00:54 --> Warning - Undefined array key 0 in /Users/kotaro/intern_without_salary/withyou/fuel/app/classes/model/testmodel.php on line 39
+ERROR - 2022-05-08 13:52:35 --> 23000 - SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'okkk-2' for key 'name' with query: "INSERT INTO `category` (`name`, `pair_id`, `created_at`) VALUES ('okkk', '2', 1652017955)" in /Users/kotaro/intern_without_salary/withyou/fuel/core/classes/database/pdo/connection.php on line 245
+ERROR - 2022-05-08 14:11:58 --> Warning - Undefined array key "new_category_name" in /Users/kotaro/intern_without_salary/withyou/fuel/app/classes/controller/welcome.php on line 80
+ERROR - 2022-05-08 14:12:40 --> Warning - Undefined array key "new_category_name" in /Users/kotaro/intern_without_salary/withyou/fuel/app/classes/controller/welcome.php on line 80
