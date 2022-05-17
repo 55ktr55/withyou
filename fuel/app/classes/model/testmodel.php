@@ -18,7 +18,7 @@ public static function get_partner_username()
 
 public static function get_category_id($category_name)
 {
-    return \DB::select('id')->from('category')->where_open()->where('pair_id', \Auth::get('pair_id'))->and_where('name', $category_name)->where_close()->execute()->as_array('id');
+    return \DB::query('SELECT id FROM category WHERE name = "'. urldecode($category_name) . '"' . 'AND pair_id = '.\Auth::get('pair_id').';')->execute()->as_array()[0]['id'];
 }
 
 public static function get_categories()
@@ -88,11 +88,10 @@ public static function change_category_name($old_category_name, $new_category_na
 
 public static function delete_category($category_name)
 {
-    // $category_id = TestModel::get_category_id($category_name);
-    $category_id = \DB::select('id')->from('category')->where_open()->where('pair_id', \Auth::get('pair_id'))->and_where('name', $category_name)->where_close()->execute()->as_array('id');
-    $query = \DB::delete('category')->where('id', $category_id)->execute();
-    $query = \DB::delete('task')->where('category_id', $category_id)->execute();
-    return $query > 0;
+    $category_id = TestModel::get_category_id($category_name);
+    $query1 = \DB::delete('category')->where('id', $category_id)->execute();
+    $query2 = \DB::delete('task')->where('category_id', $category_id)->execute();
+    return $query1 > 0;
 }
 
 public static function add_task($category_name, $task_content)
