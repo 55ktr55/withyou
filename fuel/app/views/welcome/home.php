@@ -126,6 +126,12 @@
                     </div>
                 </div>
                 <div data-bind="foreach: items" id="categories" class="text-base font-normal px-2" >
+                    <div class="flex justify-between group items-center rounded selectable-grn category_el">
+                        <div data-bind="text:  '＃ ' + $data"></div>
+                        <div id="three_dots_el" class="opacity-0 group-hover:opacity-100 p-1 rounded icon-grn" onclick="showPopup('category')">
+                            <img width="13" height="13" alt="カテゴリ設定アイコン" src="http://localhost/withyou/assets/img/three_dots.svg?1650859829">
+                        </div>
+                    </div>
                 </div>
             </div>
 

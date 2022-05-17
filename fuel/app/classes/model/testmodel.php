@@ -88,8 +88,9 @@ public static function change_category_name($old_category_name, $new_category_na
 
 public static function delete_category($category_name)
 {
-    $category_id = TestModel::get_category_id($category_name);
-    $query = \DB::delete('category')->where_open()->where('pair_id', \Auth::get('pair_id'))->and_where('name', $category_name)->where_close()->execute();
+    // $category_id = TestModel::get_category_id($category_name);
+    $category_id = \DB::select('id')->from('category')->where_open()->where('pair_id', \Auth::get('pair_id'))->and_where('name', $category_name)->where_close()->execute()->as_array('id');
+    $query = \DB::delete('category')->where('id', $category_id)->execute();
     $query = \DB::delete('task')->where('category_id', $category_id)->execute();
     return $query > 0;
 }
