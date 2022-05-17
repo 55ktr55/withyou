@@ -197,7 +197,6 @@ function showCategories(categories) {
         items: categories
     });
     const category_els = document.getElementsByClassName("category_el");
-    console.log(category_els)
     for( let i = 0 ; i < category_els.length ; i ++ ) {
         category_els[i].addEventListener('click', function() {
             var category_name = event.currentTarget.firstElementChild.textContent;
@@ -226,22 +225,26 @@ function showMainScreen(category_name){
 function addTask(){
     event.preventDefault();
     var task_content = document.getElementById("add_task_form_content").value;
-    var category_name = document.getElementById("current_category_name").textContent.replace("＃ ", "")
-    var post_data = {
-        "task_content": task_content,
-        "category_name": category_name
-    };
-    $.ajax({
-        url: location.origin + "/withyou/welcome/add_task.json",
-        type: 'POST',
-        dataType: 'json',
-        data: post_data,
-    }).done(function(data) {
-        showMainScreen(category_name);
-        document.getElementById("add_task_form_content").value = "";
-    }).fail(function() {
-        alert('タスクの追加に失敗しました');
-    });
+    if(!task_content){
+        alert('入力は必須です')
+    }else{
+        var category_name = document.getElementById("current_category_name").textContent.replace("＃ ", "")
+        var post_data = {
+            "task_content": task_content,
+            "category_name": category_name
+        };
+        $.ajax({
+            url: location.origin + "/withyou/welcome/add_task.json",
+            type: 'POST',
+            dataType: 'json',
+            data: post_data,
+        }).done(function(data) {
+            showMainScreen(category_name);
+            document.getElementById("add_task_form_content").value = "";
+        }).fail(function() {
+            alert('タスクの追加に失敗しました');
+        });
+    }
     return false;  //enter key でも発火させるため
 }
 

@@ -85,7 +85,7 @@
                     <h2 class="text-3xl font-extrabold text-center py-6">カテゴリの削除</h2>
                     <p class="text-gray-600 text-center font-semibold mb-6 mt-2">本当に削除しますか？</p>
                     <div class="flex justify-end">
-                        <form id="delete_category_btn" action="http://localhost/withyou/welcome/delete_category">
+                        <form id="delete_category_btn" action="http://localhost/withyou/welcome/delete_category" method="post">
                             <button class="py-1 px-6 rounded bg-yellow-500 text-white font-bold shadow-btn" type="submit" name="delete">削除</button>
                         </form>
                     </div>
@@ -139,7 +139,7 @@
                     <?php echo Asset::img('gear.svg', array('width'=>'25','height'=>'25','alt'=>'設定アイコン')); ?>
                     <div class="text-lg text-center ml-2">設定</div>
             </div>
-            <form action="http://localhost/withyou/welcome/signout" >
+            <form action="http://localhost/withyou/welcome/signout" method="get">
                 <button  class=" w-4/5 px-2 py-4  bg-gray-500 rounded-xl ml-5 shadow-btn" >サインアウト</button>
             </form>
         </div>

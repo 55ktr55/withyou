@@ -82,7 +82,7 @@ public static function change_category_name($old_category_name, $new_category_na
     foreach($categories as $key => $value){
         if(strcmp($key, $new_category_name) == 0) return false;
     }
-    $result = \DB::update('category')->value('name', $new_category_name)->where_open()->where('pair_id', \Auth::get('pair_id'))->and_where('name', $old_category_name)->where_close()->execute();
+    $result = \DB::update('category')->value('name', $new_category_name)->where_open()->where('pair_id', \Auth::get('pair_id'))->and_where('name', urldecode($old_category_name))->where_close()->execute();
     return $result > 0;
 }
 

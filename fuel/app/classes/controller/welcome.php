@@ -35,6 +35,43 @@ class Controller_Welcome extends Controller_Rest
 	public $error_message = "";
 
 
+	public function get_home($error_message=null)
+	{
+		if(!Auth::check())
+		{
+			return Response::redirect('welcome/signin');
+		}
+		$error_message_decoded = urldecode($error_message);
+		$data = array();
+		$data["email"] = Auth::get_email();
+		$data["username"] = Auth::get('username');
+		$data["current_partner"] = "パートナー：" . TestModel::get_partner_username();
+		$categories = TestModel::get_categories();
+		if(count($categories) > 0)
+		{
+			$categories = json_encode($categories);
+			echo <<<EOM
+			<script type="text/javascript">
+			var categories = $categories;
+			document.addEventListener('DOMContentLoaded', () => {
+				showCategories($categories);
+				showHomeWithTask();
+				showResultMessageModal('$error_message_decoded');
+			});
+			</script>
+			EOM;
+		}else{
+			echo <<<EOM
+			<script type="text/javascript">
+			document.addEventListener('DOMContentLoaded', () => {
+				showHomeWithoutTask();
+				showResultMessageModal('$error_message_decoded');
+			});
+			</script>
+			EOM;
+		}
+		return Response::forge(View::forge('welcome/home', $data));
+	}
 
 	public function get_signin()
 	{
@@ -52,6 +89,7 @@ class Controller_Welcome extends Controller_Rest
 		return Response::forge(View::forge('welcome/signup'));
 	}
 
+	
 	public function post_signin()
 	{
 		if (empty($_POST['username']) || empty($_POST['password']))
@@ -114,13 +152,16 @@ class Controller_Welcome extends Controller_Rest
 	}
 
 
-	public function action_change_category_name($old_category_name)
+	public function post_change_category_name($old_category_name)
 	{
-		if (empty($_POST['new_category_name']) || str_contains($_POST['new_category_name'], " ") || strlen($_POST['new_category_name']) > 14)
-		{
-			$this->error_message ="不正な入力です";
-		}else{
-			$result = TestModel::change_category_name($old_category_name, $_POST['new_category_name'], );
+		if(empty($_POST['new_category_name'])){
+			$this->error_message ="入力は必須です";
+		}elseif (str_contains($_POST['new_category_name'], " ") || str_contains($_POST['new_category_name'], "　")) {
+			$this->error_message ="スペースは入力できません";
+		}elseif (mb_strlen($_POST['new_category_name']) > 15) {
+			$this->error_message = "15文字以下で入力してください" ;
+		}else {
+			$result = TestModel::change_category_name($old_category_name, $_POST['new_category_name']);
 			if(!$result)
 			{
 				$this->error_message ="既存のカテゴリと同名のカテゴリは作成できません";
@@ -129,9 +170,9 @@ class Controller_Welcome extends Controller_Rest
 		return Response::redirect('welcome/home/' . $this->error_message );
 	}
 
-	public function action_create_category()
+	public function post_create_category()
 	{
-		if (empty($_POST['category_name']) || str_contains($_POST['category_name'], " ") || str_contains($_POST['category_name'], "　") || strlen($_POST['category_name']) > 14)
+		if (empty($_POST['category_name']) || str_contains($_POST['category_name'], " ") || str_contains($_POST['category_name'], "　") || mb_strlen($_POST['category_name']) > 14)
 		{
 			$this->error_message ="不正な入力です";
 		}
@@ -147,7 +188,7 @@ class Controller_Welcome extends Controller_Rest
 		return Response::redirect('welcome/home/' . $this->error_message );
 	}
 
-	public function action_delete_category($category_name)
+	public function post_delete_category($category_name)
 	{
 		$result = TestModel::delete_category($category_name);
 		if(!$result)
@@ -157,7 +198,7 @@ class Controller_Welcome extends Controller_Rest
 		return Response::redirect('welcome/home/' . $this->error_message );
 	}
 
-	public function action_register_partner()
+	public function post_register_partner()
 	{
 		if (empty($_POST['email']))
 		{
@@ -185,7 +226,7 @@ class Controller_Welcome extends Controller_Rest
 		return Response::redirect('welcome/home/' . $this->error_message);
 	}
 
-	public function action_change_password()
+	public function post_change_password()
 	{
 		if (empty($_POST['old_password']) || empty($_POST['new_password']))
 		{
@@ -202,7 +243,7 @@ class Controller_Welcome extends Controller_Rest
 		return Response::redirect('welcome/home/' . $this->error_message );
 	}
 
-	public function action_signout()
+	public function get_signout()
     {
 		$result = TestModel::delete_completed_task();
 		Auth::logout();
@@ -217,42 +258,5 @@ class Controller_Welcome extends Controller_Rest
         }
     }
 
-	public function action_home($error_message=null)
-	{
-		if(!Auth::check())
-		{
-			return Response::redirect('welcome/signin');
-		}
-		$error_message_decoded = urldecode($error_message);
-		$data = array();
-		$data["email"] = Auth::get_email();
-		$data["username"] = Auth::get('username');
-		$data["current_partner"] = "パートナー：" . TestModel::get_partner_username();
-		$categories = TestModel::get_categories();
-		if(count($categories) > 0)
-		{
-			$categories = json_encode($categories);
-			echo <<<EOM
-			<script type="text/javascript">
-			var categories = $categories;
-			document.addEventListener('DOMContentLoaded', () => {
-				showCategories($categories);
-				showHomeWithTask();
-				showResultMessageModal('$error_message_decoded');
-			});
-			</script>
-			EOM;
-		}else{
-			echo <<<EOM
-			<script type="text/javascript">
-			document.addEventListener('DOMContentLoaded', () => {
-				showHomeWithoutTask();
-				showResultMessageModal('$error_message_decoded');
-			});
-			</script>
-			EOM;
-		}
-		return Response::forge(View::forge('welcome/home', $data));
-	}
 
 }
