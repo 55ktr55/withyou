@@ -35,22 +35,21 @@ class Controller_Welcome extends Controller_Rest
 	public $error_message = "";
 
 
-	public function post_signup()
+
+	public function get_signin()
 	{
-		if (empty($_POST['username']) || empty($_POST['password']) || empty($_POST['email']))
+		$result = TestModel::delete_completed_task();
+		if(Auth::check())
 		{
-			Session::set_flash('message', '入力は全て必須です');
-			return Response::forge(View::forge('welcome/signup'));
+			return Response::redirect('welcome/home');
+		}else{
+			return Response::forge(View::forge('welcome/signin'));
 		}
+	}
 
-		try{
-			Auth::create_user($_POST['username'],$_POST['password'],$_POST['email'],1);
-		} catch (Exception $e) {
-			Session::set_flash('message', 'そのユーザーは登録できません');
-			return Response::forge(View::forge('welcome/signup'));
-		}
-
-		return Response::redirect('/welcome/home');
+	public function get_signup()
+	{
+		return Response::forge(View::forge('welcome/signup'));
 	}
 
 	public function post_signin()
@@ -68,6 +67,24 @@ class Controller_Welcome extends Controller_Rest
 			Session::set_flash('message', 'ユーザー名またはパスワードが不正です');
 			return Response::forge(View::forge('welcome/signin'));
 		}
+	}
+	
+	public function post_signup()
+	{
+		if (empty($_POST['username']) || empty($_POST['password']) || empty($_POST['email']))
+		{
+			Session::set_flash('message', '入力は全て必須です');
+			return Response::forge(View::forge('welcome/signup'));
+		}
+
+		try{
+			Auth::create_user($_POST['username'],$_POST['password'],$_POST['email'],1);
+		} catch (Exception $e) {
+			Session::set_flash('message', 'そのユーザーは登録できません');
+			return Response::forge(View::forge('welcome/signup'));
+		}
+
+		return Response::redirect('/welcome/home');
 	}
 
     public function post_get_tasks()
@@ -93,6 +110,7 @@ class Controller_Welcome extends Controller_Rest
         return $this->response($result, 200);
 
 	}
+
 
 	public function action_change_category_name($old_category_name)
 	{
@@ -180,22 +198,6 @@ class Controller_Welcome extends Controller_Rest
 			}
 		}
 		return Response::redirect('welcome/home/' . $this->error_message );
-	}
-
-	public function action_signin()
-	{
-		$result = TestModel::delete_completed_task();
-		if(Auth::check())
-		{
-			return Response::redirect('welcome/home');
-		}else{
-			return Response::forge(View::forge('welcome/signin'));
-		}
-	}
-
-	public function action_signup()
-	{
-		return Response::forge(View::forge('welcome/signup'));
 	}
 
 	public function action_signout()

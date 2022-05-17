@@ -32,7 +32,7 @@
                     </div>
                     <button  class="bg-grn text-xl w-3/5  text-white py-2 rounded" name="submit">サインイン</button>
                 </form>
-                <form action="http://localhost/withyou/welcome/signup">
+                <form action="http://localhost/withyou/welcome/signup" method="get">
                     <div>サインアップは<button class="text-blue-400 underline hover:text-blue-800" >こちら</button>から</div>
                 </form>
             </div>

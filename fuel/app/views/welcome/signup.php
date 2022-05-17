@@ -29,14 +29,14 @@
                                 <?php echo Form::input('email', null, ['id' => 'email', 'class' => "text-xl w-3/5 p-3 border rounded", 'placeholder' => 'email']); ?>
                             </div>
                             <div class="mb-2 form-group">
-                                <?php echo Form::input('password', null, ['id' => 'password', 'class' => "text-xl w-3/5 p-3 border rounded", 'placeholder' => 'password']); ?>
+                                <?php echo Form::input('password', null, ['id' => 'password', 'class' => "text-xl w-3/5 p-3 border rounded", 'placeholder' => 'password', 'type' => 'password']); ?>
                             </div>
                             <div class="font-semibold text-red-600">
                             <p><?php echo Session::get_flash('message') ?></p>
                             </div>
                             <button  class="bg-grn text-xl w-3/5  text-white py-2 rounded" name="submit">サインアップ</button>
                         </form>
-                        <form action="http://localhost/withyou/welcome/signin">
+                        <form action="http://localhost/withyou/welcome/signin" method="get">
                             <div>サインインは<button class="text-blue-400 underline hover:text-blue-800" >こちら</button>から</div>
                         </form>
                     </div>
