@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <?php echo Asset::css('styles.css'); ?>
-    <?php echo Asset::js('index.js'); ?>
     <?php echo Asset::js('knockout-3.5.1.js'); ?>
     <?php echo Asset::js('jquery-3.6.0.min.js'); ?>
+    <?php echo Asset::js('index.js'); ?>
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Document</title>
 </head>
@@ -126,12 +126,6 @@
                     </div>
                 </div>
                 <div data-bind="foreach: items" id="categories" class="text-base font-normal px-2" >
-                    <div class="flex justify-between group items-center rounded selectable-grn category_el">
-                        <div data-bind="text:  '＃ ' + $data"></div>
-                        <div id="three_dots_el" class="opacity-0 group-hover:opacity-100 p-1 rounded icon-grn" onclick="showPopup('category')">
-                            <img width="13" height="13" alt="カテゴリ設定アイコン" src="http://localhost/withyou/assets/img/three_dots.svg?1650859829">
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -150,7 +144,7 @@
                 <div class="flex items-center">
                     <?php echo Asset::img('people.svg', array('width'=>'60','height'=>'60','alt'=>'人アイコン')); ?>
                     <div class="ml-8">
-                        <h4 class="underline text-3xl font-bold">パートナー登録</h4>
+                        <h4 class="underline text-3xl font-bold">①パートナー登録</h4>
                         <span class="font-normal">タスクを共有する<br>パートナーを登録しましょう</span>
                     </div>
                 </div>
@@ -159,7 +153,7 @@
                 <div class="flex items-center">
                     <?php echo Asset::img('folder.png', array('width'=>'60','height'=>'60','alt'=>'カテゴリアイコン')); ?>
                     <div class="ml-8">
-                        <h4 class="underline text-3xl font-bold">カテゴリの作成</h4>
+                        <h4 class="underline text-3xl font-bold">②カテゴリの作成</h4>
                         <span class="font-normal">タスクの分類を<br>作成しましょう</span>
                     </div>
                 </div>
@@ -168,7 +162,7 @@
                 <div class="flex items-center">
                     <?php echo Asset::img('check_point_white.svg', array('width'=>'60','height'=>'60','alt'=>'タスク完了ボタン')); ?>
                     <div class="ml-8">
-                        <h4 class="underline text-3xl font-bold">タスクの追加</h4>
+                        <h4 class="underline text-3xl font-bold">③タスクの追加</h4>
                         <span class="font-normal">共有したい <br>タスクを追加しましょう</span>
                     </div>
                 </div>

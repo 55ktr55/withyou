@@ -68,7 +68,7 @@ class Controller_Welcome extends Controller_Rest
 			return Response::forge(View::forge('welcome/signin'));
 		}
 	}
-	
+
 	public function post_signup()
 	{
 		if (empty($_POST['username']) || empty($_POST['password']) || empty($_POST['email']))
@@ -79,7 +79,9 @@ class Controller_Welcome extends Controller_Rest
 
 		try{
 			Auth::create_user($_POST['username'],$_POST['password'],$_POST['email'],1);
+			Auth::login($_POST['username'], $_POST['password']);
 		} catch (Exception $e) {
+			var_dump($e->getMessage());
 			Session::set_flash('message', 'そのユーザーは登録できません');
 			return Response::forge(View::forge('welcome/signup'));
 		}
