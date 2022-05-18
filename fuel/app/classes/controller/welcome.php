@@ -45,7 +45,13 @@ class Controller_Welcome extends Controller_Rest
 		$data = array();
 		$data["email"] = Auth::get_email();
 		$data["username"] = Auth::get('username');
-		$data["current_partner"] = "パートナー：" . TestModel::get_partner_username();
+		if(\Auth::get("pair_id") == 0)
+		{
+			$data["current_partner"] = "未登録";
+		}else
+		{
+			$data["current_partner"] = TestModel::get_partner_username();
+		}
 		$categories = TestModel::get_categories();
 		if(count($categories) > 0)
 		{
@@ -89,7 +95,7 @@ class Controller_Welcome extends Controller_Rest
 		return Response::forge(View::forge('welcome/signup'));
 	}
 
-	
+
 	public function post_signin()
 	{
 		if (empty($_POST['username']) || empty($_POST['password']))
@@ -115,10 +121,12 @@ class Controller_Welcome extends Controller_Rest
 			return Response::forge(View::forge('welcome/signup'));
 		}
 
-		try{
+		try
+		{
 			Auth::create_user($_POST['username'],$_POST['password'],$_POST['email'],1);
 			Auth::login($_POST['username'], $_POST['password']);
-		} catch (Exception $e) {
+		} catch (Exception $e)
+		{
 			var_dump($e->getMessage());
 			Session::set_flash('message', 'そのユーザーは登録できません');
 			return Response::forge(View::forge('welcome/signup'));
@@ -140,7 +148,6 @@ class Controller_Welcome extends Controller_Rest
         $task_content = Input::post('task_content');
         $tasks = TestModel::add_task($category_name, $task_content);
         return $this->response("ok", 200);
-
 	}
 
     public function post_complete_task()
@@ -148,19 +155,21 @@ class Controller_Welcome extends Controller_Rest
         $task_id = Input::post('task_id');
         $result = TestModel::complete_task($task_id);
         return $this->response($result, 200);
-
 	}
 
 
 	public function post_change_category_name($old_category_name)
 	{
-		if(empty($_POST['new_category_name'])){
+		if(empty($_POST['new_category_name']))
+		{
 			$this->error_message ="入力は必須です";
 		}elseif (str_contains($_POST['new_category_name'], " ") || str_contains($_POST['new_category_name'], "　")) {
 			$this->error_message ="スペースは入力できません";
-		}elseif (mb_strlen($_POST['new_category_name']) > 15) {
+		}elseif (mb_strlen($_POST['new_category_name']) > 15)
+		{
 			$this->error_message = "15文字以下で入力してください" ;
-		}else {
+		}else
+		{
 			$result = TestModel::change_category_name($old_category_name, $_POST['new_category_name']);
 			if(!$result)
 			{
@@ -176,9 +185,11 @@ class Controller_Welcome extends Controller_Rest
 		{
 			$this->error_message ="不正な入力です";
 		}
-		elseif(Auth::get('pair_id') == 0) {
+		elseif(Auth::get('pair_id') == 0)
+		{
 			$this->error_message ="まずはパートナーを登録してください";
-		}else{
+		}else
+		{
 			$result = TestModel::create_category($_POST['category_name']);
 			if(!$result)
 			{
@@ -203,9 +214,11 @@ class Controller_Welcome extends Controller_Rest
 		if (empty($_POST['email']))
 		{
 			$this->error_message = "入力は必須です";
-		}else{
+		}else
+		{
 			$result = TestModel::register_partner(Auth::get_email(), $_POST['email']);
-			switch($result){
+			switch($result)
+			{
 				case 0:
 					$this->error_message = "登録済みです";
 					break;
@@ -231,7 +244,8 @@ class Controller_Welcome extends Controller_Rest
 		if (empty($_POST['old_password']) || empty($_POST['new_password']))
 		{
 			$this->error_message = "入力は必須です";
-		}else{
+		}else
+		{
 			$result = Auth::change_password($_POST['old_password'], $_POST['new_password']);
 			if($result)
 			{

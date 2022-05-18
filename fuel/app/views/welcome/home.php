@@ -55,7 +55,7 @@
                             <?php echo $email; ?>
                         </div>
                     </div>
-                    <div id="partner_name" class="font-semibold pt-4"><?php echo $current_partner; ?></div>
+                    <div id="partner_name" class="font-semibold pt-4"><?php echo "パートナー：" . $current_partner; ?></div>
                     <form id="register_form" action="http://localhost/withyou/welcome/register_partner" method="post" accept-charset="utf-8">
                         <p class="text-gray-600 pt-2">共有相手のメールアドレスを入力してください</p>
                         <?php echo Form::input('email', null, ['id' => 'email', 'class' => "my-2 p-3 border border-solid border-gray-700 rounded w-full", 'type' => 'text']); ?>

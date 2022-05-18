@@ -7,13 +7,8 @@ class TestModel extends \Model {
 
 public static function get_partner_username()
 {
-    $pair_id = \Auth::get("pair_id");
-    if($pair_id == 0) {
-        return "未登録";
-    }else {
-        $query = \DB::select('username')->from('users')->where_open()->where('pair_id', \Auth::get('pair_id'))->and_where('id', "!=", \Auth::get('id'))->where_close();
-        return $query->execute()->as_array()[0]['username'];
-    }
+    $query = \DB::select('username')->from('users')->where_open()->where('pair_id', \Auth::get('pair_id'))->and_where('id', "!=", \Auth::get('id'))->where_close();
+    return $query->execute()->as_array()[0]['username'];
 }
 
 public static function get_category_id($category_name)
@@ -55,11 +50,11 @@ public static function register_partner($user_email, $partner_email)
             return 3;
         }
     }
-    $max_pair_id = \DB::query('SELECT MAX("pair_id") FROM users')->execute()->as_array()[0];
+    $max_pair_id = \DB::query('SELECT MAX(pair_id) FROM users')->execute()->as_array()[0];
     $max_pair_id = intval($max_pair_id) + 1;
     $query3 = \DB::update('users')->value('pair_id', $max_pair_id)->where('id', $user_id)->execute();
     $query4 = \DB::update('users')->value('pair_id', $max_pair_id)->where('id', $partner_id)->execute();
-    return $query3 + $query4;
+    return $query3 + $query4;  //=2
 }
 
 public static function create_category($category_name)
