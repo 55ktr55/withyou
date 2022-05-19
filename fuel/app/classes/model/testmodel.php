@@ -82,9 +82,8 @@ public static function delete_category($category_id)
     return $query1 > 0;
 }
 
-public static function add_task($category_name, $task_content)
+public static function add_task($category_id, $task_content)
 {
-    $category_id = TestModel::get_category_id($category_name);
     $result = \DB::insert('task')->set(array(
         "content" => $task_content,
         "category_id" => $category_id,
@@ -103,7 +102,7 @@ public static function complete_task($task_id)
 
 public static function delete_completed_task()
 {
-    $query = \DB::delete('task')->where_open()->where('user_id', \Auth::get('id'))->and_where('done', 1)->where_close()->execute();
+    $query = \DB::delete('task')->where('user_id', \Auth::get('id'))->and_where('done', 1)->execute();
     return $query;
 }
 }

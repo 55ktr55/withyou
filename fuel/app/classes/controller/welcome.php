@@ -252,10 +252,10 @@ class Controller_Welcome extends Controller_Rest
 
 	public function post_add_task()
     {
-        $category_name = Input::post('category_name');
+		$category_id = TestModel::get_category_id(Input::post('category_name'));
         $task_content = Input::post('task_content');
-        $tasks = TestModel::add_task($category_name, $task_content);
-        return $this->response("ok", 200);
+        $result = TestModel::add_task($category_id, $task_content);
+        return $this->response($result, 200);
 	}
 
 	public function post_get_tasks()
