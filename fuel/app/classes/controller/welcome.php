@@ -137,8 +137,8 @@ class Controller_Welcome extends Controller_Rest
 
     public function post_get_tasks()
     {
-        $category_name = Input::post('category_name');
-        $tasks = TestModel::get_tasks($category_name);
+        $category_id = TestModel::get_category_id(Input::post('category_name'));
+        $tasks = TestModel::get_tasks($category_id);
         return $this->response($tasks, 200);
     }
 

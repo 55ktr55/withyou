@@ -22,19 +22,15 @@ public static function get_categories()
     return array_keys($categories);
 }
 
-public static function get_tasks($category_name)
+public static function get_tasks($category_id)
 {
-    $category_id = TestModel::get_category_id($category_name);
-    $tasks = \DB::select(array('task.id', 'id'), 'content', array('users.username', 'created_by'))
+    return \DB::select(array('task.id', 'id'), 'content', array('users.username', 'created_by'))
     ->from('task')
     ->join('users', 'LEFT')->on('users.id', '=', 'task.user_id')
-    ->where_open()
     ->where('done', 0)
-    ->where('category_id', $category_id)
-    ->where_close()
+    ->and_where('category_id', $category_id)
     ->execute()
     ->as_array();
-    return $tasks;
 }
 
 
