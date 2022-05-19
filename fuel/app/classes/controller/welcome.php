@@ -216,24 +216,14 @@ class Controller_Welcome extends Controller_Rest
 			$this->error_message = "入力は必須です";
 		}else
 		{
-			$result = TestModel::register_partner(Auth::get_email(), $_POST['email']);
-			switch($result)
+			$partner_id = TestModel::partner_exist($_POST['email']);
+			if($partner_id && strcmp(Auth::get('id'), $partner_id))
 			{
-				case 0:
-					$this->error_message = "登録済みです";
-					break;
-				case 1:
-					$this->error_message = "存在しないユーザーです";
-					break;
-				case 2:
-					$this->error_message = "正常に登録されました！";
-					break;
-				case 3:
-					$this->error_message = "パートナーは別の人物である必要があります";
-					break;
-				default:
-					$this->error_message = "不正な入力です";
-					break;
+				$result = TestModel::register_partner(Auth::get('id'), $partner_id);
+				$this->error_message = $result ? "正常に登録されました！" : "不正な入力です";
+			}else
+			{
+				$this->error_message = "存在しないユーザーです";
 			}
 		}
 		return Response::redirect('welcome/home/' . $this->error_message);

@@ -34,24 +34,21 @@ public static function get_tasks($category_id)
 }
 
 
-public static function register_partner($user_email, $partner_email)
+public static function register_partner($user_id, $partner_id)
 {
-    $query1 = \DB::select('id')->from('users')->where('email', $partner_email)->execute()->as_array();
-    if(empty($query1)){
-        return 1;
-    }else{
-        $user_id = \Auth::get("id");
-        $partner_id = $query1[0]['id'];
-        if($user_id == $partner_id){
-            return 3;
-        }
-    }
     $max_pair_id = \DB::query('SELECT MAX(pair_id) FROM users')->execute()->as_array()[0];
     $max_pair_id = intval($max_pair_id) + 1;
-    $query3 = \DB::update('users')->value('pair_id', $max_pair_id)->where('id', $user_id)->execute();
-    $query4 = \DB::update('users')->value('pair_id', $max_pair_id)->where('id', $partner_id)->execute();
-    return $query3 + $query4;  //=2
+    $query1 = \DB::update('users')->value('pair_id', $max_pair_id)->where('id', $user_id)->execute();
+    $query2 = \DB::update('users')->value('pair_id', $max_pair_id)->where('id', $partner_id)->execute();
+    return $query1 + $query2;  
 }
+
+public static function partner_exist($partner_email)
+{
+    $query1 = \DB::select('id')->from('users')->where('email', $partner_email)->execute()->as_array();
+    return empty($query1) ? false : $query1[0]['id'];
+}
+
 
 public static function create_category($category_name)
 {
