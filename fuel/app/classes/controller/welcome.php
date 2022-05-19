@@ -185,15 +185,20 @@ class Controller_Welcome extends Controller_Rest
 		{
 			$this->error_message ="不正な入力です";
 		}
-		elseif(Auth::get('pair_id') == 0)
+		elseif(!Auth::get('pair_id'))
 		{
 			$this->error_message ="まずはパートナーを登録してください";
-		}else
+		}
+		else
 		{
-			$result = TestModel::create_category($_POST['category_name']);
-			if(!$result)
+			$category_exists = TestModel::category_exists($_POST['category_name']);
+			if($category_exists)
 			{
 				$this->error_message ="既存のカテゴリと同名のカテゴリは作成できません";
+			}
+			else
+			{
+				$result = TestModel::create_category($_POST['category_name']);
 			}
 		}
 		return Response::redirect('welcome/home/' . $this->error_message );
@@ -216,7 +221,7 @@ class Controller_Welcome extends Controller_Rest
 			$this->error_message = "入力は必須です";
 		}else
 		{
-			$partner_id = TestModel::partner_exist($_POST['email']);
+			$partner_id = TestModel::partner_exists($_POST['email']);
 			if($partner_id && strcmp(Auth::get('id'), $partner_id))
 			{
 				$result = TestModel::register_partner(Auth::get('id'), $partner_id);

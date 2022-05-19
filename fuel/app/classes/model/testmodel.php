@@ -33,6 +33,20 @@ public static function get_tasks($category_id)
     ->as_array();
 }
 
+public static function partner_exists($partner_email)
+{
+    $query1 = \DB::select('id')->from('users')->where('email', $partner_email)->execute()->as_array();
+    return empty($query1) ? false : $query1[0]['id'];
+}
+
+public static function category_exists($category_name)
+{
+    $categories = \DB::select('name')->from('category')->where('pair_id', \Auth::get('pair_id'))->execute()->as_array('name');
+    foreach($categories as $key => $value){
+        if(!strcmp($key, $category_name)) return true;
+    }
+    return false;
+}
 
 public static function register_partner($user_id, $partner_id)
 {
@@ -40,29 +54,20 @@ public static function register_partner($user_id, $partner_id)
     $max_pair_id = intval($max_pair_id) + 1;
     $query1 = \DB::update('users')->value('pair_id', $max_pair_id)->where('id', $user_id)->execute();
     $query2 = \DB::update('users')->value('pair_id', $max_pair_id)->where('id', $partner_id)->execute();
-    return $query1 + $query2;  
-}
-
-public static function partner_exist($partner_email)
-{
-    $query1 = \DB::select('id')->from('users')->where('email', $partner_email)->execute()->as_array();
-    return empty($query1) ? false : $query1[0]['id'];
+    return $query1 + $query2;
 }
 
 
 public static function create_category($category_name)
 {
-    $categories = \DB::select('name')->from('category')->where('pair_id', \Auth::get('pair_id'))->execute()->as_array('name');
-    foreach($categories as $key => $value){
-        if(strcmp($key, $category_name) == 0) return false;
-    }
-    $query2 = \DB::insert('category')->set(array(
+    $query1 = \DB::insert('category')->set(array(
         "name" => $category_name,
         "pair_id" => \Auth::get('pair_id'),
         "created_at" => time()
     ))->execute();
     return true;
 }
+
 
 public static function change_category_name($old_category_name, $new_category_name)
 {
