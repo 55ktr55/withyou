@@ -71,17 +71,12 @@ public static function create_category($category_name)
 
 public static function change_category_name($old_category_name, $new_category_name)
 {
-    $categories = \DB::select('name')->from('category')->where('pair_id', \Auth::get('pair_id'))->execute()->as_array('name');
-    foreach($categories as $key => $value){
-        if(strcmp($key, $new_category_name) == 0) return false;
-    }
-    $result = \DB::update('category')->value('name', $new_category_name)->where_open()->where('pair_id', \Auth::get('pair_id'))->and_where('name', urldecode($old_category_name))->where_close()->execute();
+    $result = \DB::update('category')->value('name', $new_category_name)->where('pair_id', \Auth::get('pair_id'))->and_where('name', urldecode($old_category_name))->execute();
     return $result > 0;
 }
 
-public static function delete_category($category_name)
+public static function delete_category($category_id)
 {
-    $category_id = TestModel::get_category_id($category_name);
     $query1 = \DB::delete('category')->where('id', $category_id)->execute();
     $query2 = \DB::delete('task')->where('category_id', $category_id)->execute();
     return $query1 > 0;

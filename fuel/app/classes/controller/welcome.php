@@ -93,7 +93,23 @@ class Controller_Welcome extends Controller_Rest
 	public function get_signup()
 	{
 		return Response::forge(View::forge('welcome/signup'));
+
 	}
+
+	public function get_signout()
+    {
+		$result = TestModel::delete_completed_task();
+		Auth::logout();
+        if (!Auth::check())
+        {
+            Response::redirect('welcome/signin');
+        }
+        else
+        {
+            Session::set_flash('error', 'Logout failed.');
+            return Response::forge(View::forge('welcome/home'));
+        }
+    }
 
 
 	public function post_signin()
@@ -135,48 +151,42 @@ class Controller_Welcome extends Controller_Rest
 		return Response::redirect('/welcome/home');
 	}
 
-    public function post_get_tasks()
-    {
-        $category_id = TestModel::get_category_id(Input::post('category_name'));
-        $tasks = TestModel::get_tasks($category_id);
-        return $this->response($tasks, 200);
-    }
-
-	public function post_add_task()
-    {
-        $category_name = Input::post('category_name');
-        $task_content = Input::post('task_content');
-        $tasks = TestModel::add_task($category_name, $task_content);
-        return $this->response("ok", 200);
-	}
-
-    public function post_complete_task()
-    {
-        $task_id = Input::post('task_id');
-        $result = TestModel::complete_task($task_id);
-        return $this->response($result, 200);
-	}
-
-
-	public function post_change_category_name($old_category_name)
+	public function post_change_password()
 	{
-		if(empty($_POST['new_category_name']))
+		if (empty($_POST['old_password']) || empty($_POST['new_password']))
 		{
-			$this->error_message ="入力は必須です";
-		}elseif (str_contains($_POST['new_category_name'], " ") || str_contains($_POST['new_category_name'], "　")) {
-			$this->error_message ="スペースは入力できません";
-		}elseif (mb_strlen($_POST['new_category_name']) > 15)
-		{
-			$this->error_message = "15文字以下で入力してください" ;
+			$this->error_message = "入力は必須です";
 		}else
 		{
-			$result = TestModel::change_category_name($old_category_name, $_POST['new_category_name']);
-			if(!$result)
+			$result = Auth::change_password($_POST['old_password'], $_POST['new_password']);
+			if($result)
 			{
-				$this->error_message ="既存のカテゴリと同名のカテゴリは作成できません";
+				$this->error_message = "正常に変更されました";
+			}else{
+				$this->error_message = "そのパスワードには変更できません";
 			}
 		}
 		return Response::redirect('welcome/home/' . $this->error_message );
+	}
+
+	public function post_register_partner()
+	{
+		if (empty($_POST['email']))
+		{
+			$this->error_message = "入力は必須です";
+		}else
+		{
+			$partner_id = TestModel::partner_exists($_POST['email']);
+			if($partner_id && strcmp(Auth::get('id'), $partner_id))
+			{
+				$result = TestModel::register_partner(Auth::get('id'), $partner_id);
+				$this->error_message = $result ? "正常に登録されました！" : "不正な入力です";
+			}else
+			{
+				$this->error_message = "存在しないユーザーです";
+			}
+		}
+		return Response::redirect('welcome/home/' . $this->error_message);
 	}
 
 	public function post_create_category()
@@ -204,9 +214,35 @@ class Controller_Welcome extends Controller_Rest
 		return Response::redirect('welcome/home/' . $this->error_message );
 	}
 
+	public function post_change_category_name($old_category_name)
+	{
+		if(empty($_POST['new_category_name']))
+		{
+			$this->error_message ="入力は必須です";
+		}elseif (str_contains($_POST['new_category_name'], " ") || str_contains($_POST['new_category_name'], "　")) {
+			$this->error_message ="スペースは入力できません";
+		}elseif (mb_strlen($_POST['new_category_name']) > 15)
+		{
+			$this->error_message = "15文字以下で入力してください" ;
+		}else
+		{
+			$category_exists = TestModel::category_exists($_POST['ncategory_name']);
+			if($category_exists)
+			{
+				$this->error_message ="既存のカテゴリと同名のカテゴリは作成できません";
+			}
+			else
+			{
+				$result = TestModel::change_category_name($old_category_name, $_POST['new_category_name']);
+			}
+		}
+		return Response::redirect('welcome/home/' . $this->error_message );
+	}
+
 	public function post_delete_category($category_name)
 	{
-		$result = TestModel::delete_category($category_name);
+		$category_id = TestModel::get_category_id($category_name);
+		$result = TestModel::delete_category($category_id);
 		if(!$result)
 		{
 			$this->error_message = "カテゴリの削除に失敗しました";
@@ -214,58 +250,29 @@ class Controller_Welcome extends Controller_Rest
 		return Response::redirect('welcome/home/' . $this->error_message );
 	}
 
-	public function post_register_partner()
-	{
-		if (empty($_POST['email']))
-		{
-			$this->error_message = "入力は必須です";
-		}else
-		{
-			$partner_id = TestModel::partner_exists($_POST['email']);
-			if($partner_id && strcmp(Auth::get('id'), $partner_id))
-			{
-				$result = TestModel::register_partner(Auth::get('id'), $partner_id);
-				$this->error_message = $result ? "正常に登録されました！" : "不正な入力です";
-			}else
-			{
-				$this->error_message = "存在しないユーザーです";
-			}
-		}
-		return Response::redirect('welcome/home/' . $this->error_message);
-	}
-
-	public function post_change_password()
-	{
-		if (empty($_POST['old_password']) || empty($_POST['new_password']))
-		{
-			$this->error_message = "入力は必須です";
-		}else
-		{
-			$result = Auth::change_password($_POST['old_password'], $_POST['new_password']);
-			if($result)
-			{
-				$this->error_message = "正常に変更されました";
-			}else{
-				$this->error_message = "そのパスワードには変更できません";
-			}
-		}
-		return Response::redirect('welcome/home/' . $this->error_message );
-	}
-
-	public function get_signout()
+	public function post_add_task()
     {
-		$result = TestModel::delete_completed_task();
-		Auth::logout();
-        if (!Auth::check())
-        {
-            Response::redirect('welcome/signin');
-        }
-        else
-        {
-            Session::set_flash('error', 'Logout failed.');
-            return Response::forge(View::forge('welcome/home'));
-        }
+        $category_name = Input::post('category_name');
+        $task_content = Input::post('task_content');
+        $tasks = TestModel::add_task($category_name, $task_content);
+        return $this->response("ok", 200);
+	}
+
+	public function post_get_tasks()
+    {
+        $category_id = TestModel::get_category_id(Input::post('category_name'));
+        $tasks = TestModel::get_tasks($category_id);
+        return $this->response($tasks, 200);
     }
+
+
+    public function post_complete_task()
+    {
+        $task_id = Input::post('task_id');
+        $result = TestModel::complete_task($task_id);
+        return $this->response($result, 200);
+	}
+
 
 
 }
